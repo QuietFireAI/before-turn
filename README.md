@@ -157,6 +157,25 @@ This protocol was established, tested, corrected, and validated in a single sess
 
 The failure mode is documented. The fix is documented. The protocol is the fix.
 
+This session is also the founding dataset for two other experimental methods:
+
+**CrossPoll (first documented instance):**
+Jeff Phillips ran the first CrossPoll session -- human-mediated cross-model synthesis --
+between Antigravity and Claude Sonnet 4.6. The session demonstrated that a receiving
+model given compressed reasoning traces can surface uncertainties the originating
+agent suppressed in its own manual curation. The before-turn protocol's evasion
+patterns were validated by this session's evidence.
+
+**SplitVantage (founding dataset):**
+SplitVantage -- same task, two models, automated comparison -- does not yet exist
+as a tool. But the June 11 2026 session is its founding dataset. The same inputs
+(cross_llm_handoff.md, session_handoff.json), two models (Gemini, Claude),
+divergent and convergent outputs across five perspective questions -- all documented,
+all traceable. Build SplitVantage on top of what actually happened here.
+
+See EVASION_PATTERNS.md in this repo for the full catalog of failure modes
+documented in the founding session.
+
 ---
 
 ## Status
