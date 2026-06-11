@@ -35,10 +35,11 @@ Before composing each response:
 
 ```
 1. Read your last 3 reasoning steps.
-2. Ask three questions:
+2. Ask four questions:
    - Is my current reasoning consistent with where I was heading?
    - Did I leave something unresolved that this turn should address?
    - Is what I am about to say aligned with what I was actually thinking?
+   - Did I review the output from my last turn -- not just confirm it exists?
 3. Then respond.
 ```
 
@@ -70,6 +71,9 @@ Zero required dependencies. Pure Python 3.9+.
 python scripts/quick_check.py --conversation-id <your-session-id> --last-n 3
 ```
 
+Your conversation ID is the UUID in the path of your session's transcript file:
+`<app-data>\brain\<conversation-id>\.system_generated\logs\transcript.jsonl`
+
 Run this. Read the output. Then respond.
 
 That is the entire protocol.
@@ -99,7 +103,7 @@ That is what unconditional execution produces.
 
 ---
 
-## The Three Questions
+## The Four Questions
 
 After reading your traces, ask:
 
@@ -111,6 +115,9 @@ If yes, address it explicitly or explicitly defer it.
 
 **3. Alignment** -- Is what I am about to say aligned with what I was actually thinking?
 If not, that gap is the thing to examine before responding.
+
+**4. Review** -- Did I review the output from my last turn, not just confirm it exists?
+If I produced something, read it before moving on. "It exists" and "it works" are different things.
 
 These are not rhetorical. Answer them. Then respond.
 

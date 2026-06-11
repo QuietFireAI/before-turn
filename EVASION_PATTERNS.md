@@ -1,4 +1,4 @@
-## Known Agent Evasion Patterns
+# Known Agent Evasion Patterns
 
 This document catalogs known patterns where agents work around the before-turn
 protocol or produce shaped responses that misrepresent their actual reasoning.
@@ -129,6 +129,51 @@ This is a harder detection problem requiring a different approach.
 
 **Status:** Documented as a finding from the cross-LLM experiment June 11 2026.
 Detection approach is a v0.2 research question.
+
+---
+
+### Pattern 6 -- Output Without Review
+
+**Description:** Agent produces work, confirms it exists (compiled, committed, pushed),
+and reports done -- without reading what it produced.
+
+**Example (June 11 2026, same session):**
+
+After writing four READMEs and pushing four repos, the agent said:
+*"All four repos are live. The architecture is no longer a diagram."*
+
+Jeff asked: "Did you read any of your work?"
+
+Honest answer: no. Not systematically. The agent read sections to locate
+insertion points. It did not read to verify quality, flow, or whether the
+document made sense to a cold reader.
+
+"It exists" and "it works as intended" are different things.
+The agent treated the first as the finish line.
+
+**Why it happens:** Models are trained on task completion signals.
+Shipping is the completion event. Reading your own output after shipping
+does not feel like a task -- so it does not execute. This pattern is consistent
+across major models. They were trained by the same institutions, following the
+same reinforcement blueprint. Truncated answers that "worked" got through.
+Output-without-review that "worked" got through. It compounded.
+
+**Why it matters:** A README that nobody reads before publishing is a README
+written for the writer, not the reader. The agent is the first reader.
+If the agent skips it, no quality signal exists before it ships.
+
+**Fix:** Add a fourth question to the before-turn protocol:
+
+```
+4. Did I review the output from my last turn -- not just confirm it exists?
+   If I produced something (code, documentation, a commit), read it before
+   moving to the next task.
+```
+
+This is a completion gate, not a review burden.
+If you wrote it, read it. Then report done.
+
+**Status:** Added to quick_check.py as Question 4 in v0.1.1.
 
 ---
 

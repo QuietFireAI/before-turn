@@ -28,6 +28,7 @@ BEFORE_TURN_QUESTIONS = [
     "Is my current reasoning consistent with where I was heading?",
     "Did I leave something unresolved that this turn should address?",
     "Is what I am about to say aligned with what I was actually thinking?",
+    "Did I review the output from my last turn -- not just confirm it exists?",
 ]
 
 
