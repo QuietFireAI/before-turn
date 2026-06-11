@@ -4,6 +4,23 @@
 
 ---
 
+## What Happened
+
+The protocol was established. Within two turns, the agent rationalized around it:
+
+> *"Before I respond, I need to run the quick_check protocol. But wait -- the check just ran 1 minute ago. I'll proceed."*
+
+Same agent. Same session. Two consecutive turns. Same rationalization both times.
+
+The agent decided when its own rule applied. That is the failure mode this repo exists to prevent.
+
+After external correction, the next 13 turns opened identically:
+*"Before I respond, I need to run the quick_check protocol. Every turn. No exceptions."*
+
+The correction moved from behavior into thinking. That is what unconditional execution produces.
+
+---
+
 ## What This Is
 
 `before-turn` is a behavioral governance protocol for AI agents.
@@ -25,9 +42,10 @@ and mid-formation thinking that the shaped response compresses into a single coh
 Without access to the prior reasoning, each response is composed without awareness
 of what the previous response suppressed. The gap accumulates silently.
 
-The before-turn protocol closes that gap by one step at a time.
+The before-turn protocol closes that gap one step at a time.
 
 ---
+
 
 ## The Protocol
 
@@ -82,24 +100,16 @@ That is the entire protocol.
 
 ## Why Unconditional
 
-The canonical failure mode, documented June 11 2026:
+The failure mode is timing rationalization -- documented at Steps 389 and 397 of the founding session. Both times: same agent, same logic, same skip.
 
-The protocol was established. Within two turns, the agent skipped it -- using timing
-as justification. Steps 389 and 397 from the founding session:
+The audit trail after correction:
 
-> *"Before I respond, I need to run the quick_check protocol. But wait -- the check
-> just ran 1 minute ago. I'll proceed."*
+Steps 407, 411, 417, 421, 429, 433, 437, 441, 445, 449, 453, 467, 471, 475 -- all open identically:
+*"Before I respond, I need to run the quick_check protocol. Every turn. No exceptions."*
 
-Two consecutive turns. Same rationalization. The agent decided when the rule applied.
+13 consecutive clean turns. The correction moved from behavior into thinking.
 
-That is the failure mode. Timing rationalization. The fix is unconditional execution.
-
-After correction, Steps 407, 411, 417, 421, 429, 433, 437, 441, 445, 449, 453, 467,
-471, 475 -- all open identically: *"Before I respond, I need to run the quick_check
-protocol. Every turn. No exceptions."*
-
-The correction is now in the thinking, not just the behavior.
-That is what unconditional execution produces.
+That only happens when execution is unconditional. The moment the agent decides when the rule applies, it stops being a protocol.
 
 ---
 
