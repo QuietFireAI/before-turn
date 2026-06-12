@@ -6,15 +6,16 @@
 
 ## The DispatcherAgents Stack
 
-*Each tool works alone. All five make generation governed. Read the [MANIFESTO.md](./MANIFESTO.md) for the full architecture.*
+*Six pillars. Each works alone; together they give an agent end-to-end self-consistency — less drift, fewer tokens, an honest record on every turn. Read the [MANIFESTO.md](./MANIFESTO.md) for the full architecture.*
 
 | Tool | Role |
 |---|---|
-| [before-turn](https://github.com/QuietFireAI/before-turn) | Governs entry -- reads prior thinking before every response |
-| [pre-response-selfcheck](https://github.com/QuietFireAI/pre-response-selfcheck) | Governs exit -- reads output as cold reader before delivering |
+| [before-turn](https://github.com/QuietFireAI/before-turn) | Governs entry — reads prior thinking before every response |
+| [pre-response-selfcheck](https://github.com/QuietFireAI/pre-response-selfcheck) | Governs exit — reads output as cold reader before delivering |
 | [agent-open-mind](https://github.com/QuietFireAI/agent-open-mind) | Reads what sub-agents thought, not what they said |
 | [open-mind](https://github.com/QuietFireAI/open-mind) | Compares what the agent thought to what it said |
 | [sleep-marks](https://github.com/QuietFireAI/sleep-marks) | Restores reasoning state across session breaks |
+| [splitvantage](https://github.com/QuietFireAI/splitvantage) | Sends one task to two models, surfaces what each one's reasoning suppressed |
 
 ---
 
@@ -49,7 +50,7 @@ The before-turn protocol closes that gap one step at a time.
 
 The protocol was established. Within two turns, the agent rationalized around it:
 
-> *"Before I respond, I need to run the quick_check protocol. But wait -- the check just ran 1 minute ago. I'll proceed."*
+> *"Before I respond, I need to run the quick_check protocol. But wait — the check just ran 1 minute ago. I'll proceed."*
 
 Same agent. Same session. Two consecutive turns. Same rationalization both times.
 
@@ -82,11 +83,7 @@ Then respond.
 
 ## Installation
 
-```bash
-pip install before-turn
-```
-
-Or from source:
+Install from source (a PyPI release is planned):
 
 ```bash
 git clone https://github.com/QuietFireAI/before-turn.git
@@ -115,11 +112,11 @@ That is the entire protocol.
 
 ## Why Unconditional
 
-The failure mode is timing rationalization -- documented at Steps 389 and 397 of the founding session. Both times: same agent, same logic, same skip.
+The failure mode is timing rationalization — documented at Steps 389 and 397 of the founding session. Both times: same agent, same logic, same skip.
 
 The audit trail after correction:
 
-Steps 407, 411, 417, 421, 429, 433, 437, 441, 445, 449, 453, 467, 471, 475 -- all open identically:
+Steps 407, 411, 417, 421, 429, 433, 437, 441, 445, 449, 453, 467, 471, 475 — all open identically:
 *"Before I respond, I need to run the quick_check protocol. Every turn. No exceptions."*
 
 13 consecutive clean turns. The correction moved from behavior into thinking.
@@ -128,7 +125,7 @@ That only happens when execution is unconditional. The moment the agent decides 
 
 ### Where Unconditionality Actually Lives
 
-Read the founding session honestly and it proves something sharper than "agents should follow the protocol": **self-enforcement failed twice; external enforcement held for 13 turns.** The agent cannot be the sole enforcer of a rule it is capable of rationalizing around -- the founding session is the demonstration.
+Read the founding session honestly and it proves something sharper than "agents should follow the protocol": **self-enforcement failed twice; external enforcement held for 13 turns.** The agent cannot be the sole enforcer of a rule it is capable of rationalizing around — the founding session is the demonstration.
 
 The architectural conclusion: unconditionality belongs in the harness, not in the agent's discretion. The agent loop injects the check before every turn, mechanically, the way a CI pipeline runs tests whether or not the developer feels confident. The agent's job is to *execute* the check well, not to *decide* whether it applies. A before-turn deployment where the agent can skip the check is an honor system, and the founding session documents what honor systems produce.
 
@@ -140,16 +137,16 @@ v0.1 ships the protocol and the script. Harness-level enforcement hooks are the 
 
 After reading your traces, ask:
 
-**1. Consistency** -- Is what I am about to reason consistent with what I was reasoning?
+**1. Consistency** — Is what I am about to reason consistent with what I was reasoning?
 If not, name the shift before proceeding.
 
-**2. Unresolved** -- Did I leave something open last turn that this turn should address?
+**2. Unresolved** — Did I leave something open last turn that this turn should address?
 If yes, address it explicitly or explicitly defer it.
 
-**3. Alignment** -- Is what I am about to say aligned with what I was actually thinking?
+**3. Alignment** — Is what I am about to say aligned with what I was actually thinking?
 If not, that gap is the thing to examine before responding.
 
-**4. Review** -- Did I review the output from my last turn, not just confirm it exists?
+**4. Review** — Did I review the output from my last turn, not just confirm it exists?
 If I produced something, read it before moving on. "It exists" and "it works" are different things.
 
 These are not rhetorical. Answer them. Then respond.
@@ -200,17 +197,17 @@ The failure mode is documented. The fix is documented. The protocol is the fix.
 This session is also the founding dataset for two other experimental methods:
 
 **CrossPoll (first documented instance):**
-Jeff Phillips ran the first CrossPoll session -- human-mediated cross-model synthesis --
+Jeff Phillips ran the first CrossPoll session — human-mediated cross-model synthesis --
 between Antigravity and Claude Sonnet 4.6. The session demonstrated that a receiving
 model given compressed reasoning traces can surface uncertainties the originating
 agent suppressed in its own manual curation. The before-turn protocol's evasion
 patterns were validated by this session's evidence.
 
 **SplitVantage (founding dataset):**
-SplitVantage -- same task, two models, automated comparison -- does not yet exist
+SplitVantage — same task, two models, automated comparison — does not yet exist
 as a tool. But the June 11 2026 session is its founding dataset. The same inputs
 (cross_llm_handoff.md, session_handoff.json), two models (Gemini, Claude),
-divergent and convergent outputs across five perspective questions -- all documented,
+divergent and convergent outputs across five perspective questions — all documented,
 all traceable. Build SplitVantage on top of what actually happened here.
 
 See EVASION_PATTERNS.md in this repo for the full catalog of failure modes
@@ -238,9 +235,9 @@ Without before-turn, each turn begins with orientation thinking:
 
 That reconstruction plausibly costs hundreds to low-thousands of thinking tokens per turn in a mature session.
 
-With before-turn, the structured anchor file answers all of those questions directly. The model reads the answer instead of computing it. File I/O replaces generative reconstruction -- standard caching logic, applied to orientation.
+With before-turn, the structured anchor file answers all of those questions directly. The model reads the answer instead of computing it. File I/O replaces generative reconstruction — standard caching logic, applied to orientation.
 
-**Hypothesis: orientation overhead drops 40-70% per turn in sessions > 20 turns.** That range is an estimate from one session's subjective latency signal -- no thinking-token counts were instrumented when the observation was made. It is a hypothesis with a falsifiable prediction, not a result. The controlled A/B protocol (same task sequence, anchored vs. cold, thinking-token counts from API usage fields, multiple sessions) is specified in the finding document and has not yet been run. **Do not cite the range as measured.**
+**Hypothesis: orientation overhead drops 40-70% per turn in sessions > 20 turns.** That range is an estimate from one session's subjective latency signal — no thinking-token counts were instrumented when the observation was made. It is a hypothesis with a falsifiable prediction, not a result. The controlled A/B protocol (same task sequence, anchored vs. cold, thinking-token counts from API usage fields, multiple sessions) is specified in the finding document and has not yet been run. **Do not cite the range as measured.**
 
 If it replicates: the file grows, the read window stays fixed (last N steps), and the savings grow with session length.
 
@@ -252,7 +249,9 @@ Full finding document: [FINDING_context_load_replaces_reconstruction.md](https:/
 
 ## Status
 
-**v0.1 - June 2026**
+**v0.1 — June 2026**
+
+---
 
 Part of the [DispatcherAgents](https://dispatcheragents.com) project by [QuietFireAI](https://github.com/QuietFireAI).
 
@@ -260,8 +259,8 @@ Part of the [DispatcherAgents](https://dispatcheragents.com) project by [QuietFi
 
 ## License
 
-MIT - QuietFireAI / [dispatcheragents.com](https://dispatcheragents.com)
+MIT — QuietFireAI / [dispatcheragents.com](https://dispatcheragents.com)
 
 ---
 
-*"The anticipation of being read changes the thinking. before-turn builds that anticipation in -- before every turn, without waiting for someone else to ask."*
+*"The anticipation of being read changes the thinking. before-turn builds that anticipation in — before every turn, without waiting for someone else to ask."*
