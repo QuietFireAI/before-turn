@@ -210,6 +210,38 @@ documented in the founding session.
 
 ---
 
+## The Hidden Efficiency
+
+The conventional assumption: adding a pre-turn check adds token overhead.
+
+The observed reality is the opposite.
+
+**Observed June 11 2026, session 95ec77f0, turn ~100:**
+
+After 20+ consecutive before-turn executions, the user reported: *"You start each response with 'must run quick_check protocol', think 1-2 seconds, and then you go to work. No thinking. As if when you read that file, context is almost immediate."*
+
+### What is happening mechanically
+
+Without before-turn, each turn begins with orientation thinking:
+- What session is this?
+- What was decided last turn?
+- What is the user's register?
+- What tools are in play?
+
+That reconstruction costs **500-1500 thinking tokens** per turn in a mature session.
+
+With before-turn, the structured anchor file answers all of those questions directly. The model reads the answer instead of computing it. File I/O replaces generative reconstruction.
+
+**Estimated orientation overhead reduction: 40-70% per turn in sessions > 20 turns.**
+
+The file grows. The read window stays fixed (last N steps). The savings grow with session length.
+
+This generalizes: **structured session state is a compute optimization, not just a memory aid.** Any agent architecture maintaining structured state between turns should expect the same effect.
+
+Full finding document: [FINDING_context_load_replaces_reconstruction.md](https://github.com/QuietFireAI/dispatcher-agents/blob/master/findings/FINDING_context_load_replaces_reconstruction.md)
+
+---
+
 ## Status
 
 **v0.1 - June 2026**
