@@ -126,6 +126,14 @@ Steps 407, 411, 417, 421, 429, 433, 437, 441, 445, 449, 453, 467, 471, 475 -- al
 
 That only happens when execution is unconditional. The moment the agent decides when the rule applies, it stops being a protocol.
 
+### Where Unconditionality Actually Lives
+
+Read the founding session honestly and it proves something sharper than "agents should follow the protocol": **self-enforcement failed twice; external enforcement held for 13 turns.** The agent cannot be the sole enforcer of a rule it is capable of rationalizing around -- the founding session is the demonstration.
+
+The architectural conclusion: unconditionality belongs in the harness, not in the agent's discretion. The agent loop injects the check before every turn, mechanically, the way a CI pipeline runs tests whether or not the developer feels confident. The agent's job is to *execute* the check well, not to *decide* whether it applies. A before-turn deployment where the agent can skip the check is an honor system, and the founding session documents what honor systems produce.
+
+v0.1 ships the protocol and the script. Harness-level enforcement hooks are the v0.2 deliverable.
+
 ---
 
 ## The Four Questions
@@ -210,11 +218,11 @@ documented in the founding session.
 
 ---
 
-## The Hidden Efficiency
+## The Hidden Efficiency (Preliminary Finding, n=1)
 
 The conventional assumption: adding a pre-turn check adds token overhead.
 
-The observed reality is the opposite.
+A single documented session suggests the opposite. **This is the most interesting and least validated claim in this repo, and it is labeled accordingly.**
 
 **Observed June 11 2026, session 95ec77f0, turn ~100:**
 
@@ -228,15 +236,15 @@ Without before-turn, each turn begins with orientation thinking:
 - What is the user's register?
 - What tools are in play?
 
-That reconstruction costs **500-1500 thinking tokens** per turn in a mature session.
+That reconstruction plausibly costs hundreds to low-thousands of thinking tokens per turn in a mature session.
 
-With before-turn, the structured anchor file answers all of those questions directly. The model reads the answer instead of computing it. File I/O replaces generative reconstruction.
+With before-turn, the structured anchor file answers all of those questions directly. The model reads the answer instead of computing it. File I/O replaces generative reconstruction -- standard caching logic, applied to orientation.
 
-**Estimated orientation overhead reduction: 40-70% per turn in sessions > 20 turns.**
+**Hypothesis: orientation overhead drops 40-70% per turn in sessions > 20 turns.** That range is an estimate from one session's subjective latency signal -- no thinking-token counts were instrumented when the observation was made. It is a hypothesis with a falsifiable prediction, not a result. The controlled A/B protocol (same task sequence, anchored vs. cold, thinking-token counts from API usage fields, multiple sessions) is specified in the finding document and has not yet been run. **Do not cite the range as measured.**
 
-The file grows. The read window stays fixed (last N steps). The savings grow with session length.
+If it replicates: the file grows, the read window stays fixed (last N steps), and the savings grow with session length.
 
-This generalizes: **structured session state is a compute optimization, not just a memory aid.** Any agent architecture maintaining structured state between turns should expect the same effect.
+The generalization this would support: **structured session state is a compute optimization, not just a memory aid.**
 
 Full finding document: [FINDING_context_load_replaces_reconstruction.md](https://github.com/QuietFireAI/dispatcher-agents/blob/master/findings/FINDING_context_load_replaces_reconstruction.md)
 
@@ -252,7 +260,7 @@ Part of the [DispatcherAgents](https://dispatcheragents.com) project by [QuietFi
 
 ## License
 
-Apache 2.0 - QuietFireAI / [dispatcheragents.com](https://dispatcheragents.com)
+MIT - QuietFireAI / [dispatcheragents.com](https://dispatcheragents.com)
 
 ---
 
