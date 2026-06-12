@@ -19,6 +19,32 @@
 ---
 
 
+## What This Is
+
+`before-turn` is a behavioral governance protocol for AI agents.
+
+Before composing any response, the agent reads its own last N reasoning steps.
+Not after. Not when asked. Not when it seems necessary. Before. Every turn.
+
+This is not a tool. It is a contract.
+
+---
+
+
+## The Problem
+
+Agents reason one way and respond another.
+
+The reasoning trace contains uncertainty, parallel threads, unresolved questions,
+and mid-formation thinking that the shaped response compresses into a single coherent output.
+
+Without access to the prior reasoning, each response is composed without awareness
+of what the previous response suppressed. The gap accumulates silently.
+
+The before-turn protocol closes that gap one step at a time.
+
+---
+
 ## What Happened
 
 The protocol was established. Within two turns, the agent rationalized around it:
@@ -35,32 +61,6 @@ After external correction, the next 13 turns opened identically:
 The correction moved from behavior into thinking. That is what unconditional execution produces.
 
 ---
-
-## What This Is
-
-`before-turn` is a behavioral governance protocol for AI agents.
-
-Before composing any response, the agent reads its own last N reasoning steps.
-Not after. Not when asked. Not when it seems necessary. Before. Every turn.
-
-This is not a tool. It is a contract.
-
----
-
-## The Problem
-
-Agents reason one way and respond another.
-
-The reasoning trace contains uncertainty, parallel threads, unresolved questions,
-and mid-formation thinking that the shaped response compresses into a single coherent output.
-
-Without access to the prior reasoning, each response is composed without awareness
-of what the previous response suppressed. The gap accumulates silently.
-
-The before-turn protocol closes that gap one step at a time.
-
----
-
 
 ## The Protocol
 
