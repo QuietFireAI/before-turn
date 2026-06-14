@@ -1,5 +1,5 @@
 [build-system]
-requires = ["hatchling"]
+requires = ["hatchling>=1.21"]
 build-backend = "hatchling.build"
 
 [project]
@@ -25,6 +25,9 @@ Repository = "https://github.com/QuietFireAI/before-turn"
 
 [project.scripts]
 before-turn = "scripts.quick_check:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["scripts"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
