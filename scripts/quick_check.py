@@ -73,7 +73,8 @@ def quick_check(conversation_id: str, last_n: int = 3) -> None:
     print("\nThen respond.\n")
 
 
-if __name__ == "__main__":
+def main(argv=None) -> None:
+    """Console entry point (referenced by [project.scripts] in pyproject.toml)."""
     parser = argparse.ArgumentParser(
         description="Before-turn self-reflection protocol",
         formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -90,5 +91,9 @@ if __name__ == "__main__":
         default=3,
         help="Number of recent thinking steps to review (default: 3)",
     )
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
     quick_check(args.conversation_id, args.last_n)
+
+
+if __name__ == "__main__":
+    main()
