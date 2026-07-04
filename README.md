@@ -269,3 +269,7 @@ MIT - QuietFireAI / [QuietFireAI](https://github.com/QuietFireAI)
 ---
 
 *"The anticipation of being read changes the thinking. before-turn builds that anticipation in - before every turn, without waiting for someone else to ask."*
+
+## Runtime wiring
+
+Runtime wiring (dispatcher-agents): Hub.on_turn_start + dispatcher/pillars.py before_turn_check - the hub re-reads its own recent reflection artifacts and answers this pillar's BEFORE_TURN_QUESTIONS before acting; audited as beforeturn.check. Import: from before_turn import BEFORE_TURN_QUESTIONS.

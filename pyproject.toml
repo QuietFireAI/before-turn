@@ -27,7 +27,7 @@ Repository = "https://github.com/QuietFireAI/before-turn"
 before-turn = "scripts.quick_check:main"
 
 [tool.hatch.build.targets.wheel]
-packages = ["scripts"]
+packages = ["before_turn", "scripts"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
