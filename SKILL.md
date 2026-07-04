@@ -1,7 +1,7 @@
 ---
 name: before-turn
 description: >
-  Run before composing ANY response — especially after a tool result, a context
+  Run before composing ANY response - especially after a tool result, a context
   gap, or a topic shift. Read your own recent reasoning and answer four questions
   before you write, so you enter the turn aware of where you were heading instead
   of starting cold. This is the ENTRY bookend of the DispatcherAgents turn cycle.
@@ -20,13 +20,13 @@ At the start of any turn that continues prior work: after a tool call returns,
 after a pause, when the topic shifts, or any time you are about to assert that
 something is done, fixed, or verified.
 
-## The protocol — the four questions
+## The protocol - the four questions
 Before writing the response, answer these against your last few reasoning steps:
 
 1. Is my current reasoning consistent with where I was heading?
 2. Did I leave something unresolved that this turn should address?
 3. Is what I am about to say aligned with what I was actually thinking?
-4. Did I review the output from my last turn — not just confirm it exists?
+4. Did I review the output from my last turn - not just confirm it exists?
 
 If any answer is "no," fix that before composing the response.
 
@@ -48,8 +48,8 @@ independent core.)
 ## Honest scope
 This is a reflection prompt, not a guarantee. It improves self-consistency; it
 does not verify facts. Question 4 is the one that matters most and the one most
-often skipped — "confirm it exists" is not "review it."
+often skipped - "confirm it exists" is not "review it."
 
 ## Output convention
 End a triggering turn with one line, e.g.:
-`before-turn: reviewed last 3 steps — aligned; unresolved item: <X>.`
+`before-turn: reviewed last 3 steps - aligned; unresolved item: <X>.`
