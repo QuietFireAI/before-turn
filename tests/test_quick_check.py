@@ -17,7 +17,10 @@ import pytest
 
 import sys
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from before_turn.quick_check import quick_check, BEFORE_TURN_QUESTIONS
+import importlib
+qc_module = importlib.import_module("before_turn.quick_check")
+quick_check = qc_module.quick_check
+BEFORE_TURN_QUESTIONS = qc_module.BEFORE_TURN_QUESTIONS
 
 
 def make_transcript(thoughts: list[dict], tmp_path: Path) -> tuple[str, Path]:
@@ -45,7 +48,7 @@ def test_four_questions_always_present(tmp_path, capsys):
     thoughts = [{"thinking": "I was reasoning about X."}]
     conv_id, base = make_transcript(thoughts, tmp_path)
 
-    with patch("before_turn.quick_check.BRAIN_DIR", base):
+    with patch.object(qc_module, "BRAIN_DIR", base):
         quick_check(conv_id, last_n=3)
 
     captured = capsys.readouterr()
@@ -63,7 +66,7 @@ def test_shows_requested_n_steps(tmp_path, capsys):
     ]
     conv_id, base = make_transcript(thoughts, tmp_path)
 
-    with patch("before_turn.quick_check.BRAIN_DIR", base):
+    with patch.object(qc_module, "BRAIN_DIR", base):
         quick_check(conv_id, last_n=2)
 
     captured = capsys.readouterr()
@@ -75,7 +78,7 @@ def test_shows_requested_n_steps(tmp_path, capsys):
 
 def test_missing_transcript_handled_gracefully(tmp_path, capsys):
     """Missing transcript should produce a clear message, not a crash."""
-    with patch("before_turn.quick_check.BRAIN_DIR", tmp_path):
+    with patch.object(qc_module, "BRAIN_DIR", tmp_path):
         quick_check("nonexistent-id", last_n=3)
 
     captured = capsys.readouterr()
@@ -89,7 +92,7 @@ def test_empty_transcript_handled(tmp_path, capsys):
     log_dir.mkdir(parents=True)
     (log_dir / "transcript.jsonl").write_text("", encoding="utf-8")
 
-    with patch("before_turn.quick_check.BRAIN_DIR", tmp_path):
+    with patch.object(qc_module, "BRAIN_DIR", tmp_path):
         quick_check(conv_id, last_n=3)
 
     captured = capsys.readouterr()
@@ -102,8 +105,6 @@ def test_canonical_failure_mode_documented():
     This test documents it as a known, named failure -- not tested by running code
     but by asserting the failure mode is described in the module docstring.
     """
-    import importlib
-    qc_module = importlib.import_module("before_turn.quick_check")
     assert "timing rationalization" in qc_module.__doc__.lower(), (
         "The canonical failure mode (timing rationalization) must be documented "
         "in the module docstring. It is the first and most common way this "
@@ -120,7 +121,7 @@ def test_steps_in_order(tmp_path, capsys):
     ]
     conv_id, base = make_transcript(thoughts, tmp_path)
 
-    with patch("before_turn.quick_check.BRAIN_DIR", base):
+    with patch.object(qc_module, "BRAIN_DIR", base):
         quick_check(conv_id, last_n=3)
 
     captured = capsys.readouterr()
