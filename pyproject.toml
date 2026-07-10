@@ -24,10 +24,10 @@ Homepage = "https://github.com/QuietFireAI"
 Repository = "https://github.com/QuietFireAI/before-turn"
 
 [project.scripts]
-before-turn = "scripts.quick_check:main"
+before-turn = "before_turn.quick_check:main"
 
 [tool.hatch.build.targets.wheel]
-packages = ["before_turn", "scripts"]
+packages = ["before_turn"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

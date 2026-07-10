@@ -3,7 +3,7 @@ test_quick_check.py - Tests for the before-turn protocol
 
 Tests cover:
 - Protocol runs and produces output
-- Three questions always appear
+- All four before-turn questions always appear
 - Handles missing transcript gracefully
 - Canonical failure mode: timing rationalization is not an excuse
 """
@@ -16,8 +16,8 @@ from unittest.mock import patch
 import pytest
 
 import sys
-sys.path.insert(0, str(Path(__file__).parent.parent / "scripts"))
-from quick_check import quick_check, BEFORE_TURN_QUESTIONS
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from before_turn.quick_check import quick_check, BEFORE_TURN_QUESTIONS
 
 
 def make_transcript(thoughts: list[dict], tmp_path: Path) -> tuple[str, Path]:
@@ -40,12 +40,12 @@ def make_transcript(thoughts: list[dict], tmp_path: Path) -> tuple[str, Path]:
     return conv_id, tmp_path
 
 
-def test_three_questions_always_present(tmp_path, capsys):
-    """The three before-turn questions must always appear in output."""
+def test_four_questions_always_present(tmp_path, capsys):
+    """All four before-turn questions must always appear in output."""
     thoughts = [{"thinking": "I was reasoning about X."}]
     conv_id, base = make_transcript(thoughts, tmp_path)
 
-    with patch("quick_check.BRAIN_DIR", base):
+    with patch("before_turn.quick_check.BRAIN_DIR", base):
         quick_check(conv_id, last_n=3)
 
     captured = capsys.readouterr()
@@ -63,7 +63,7 @@ def test_shows_requested_n_steps(tmp_path, capsys):
     ]
     conv_id, base = make_transcript(thoughts, tmp_path)
 
-    with patch("quick_check.BRAIN_DIR", base):
+    with patch("before_turn.quick_check.BRAIN_DIR", base):
         quick_check(conv_id, last_n=2)
 
     captured = capsys.readouterr()
@@ -75,7 +75,7 @@ def test_shows_requested_n_steps(tmp_path, capsys):
 
 def test_missing_transcript_handled_gracefully(tmp_path, capsys):
     """Missing transcript should produce a clear message, not a crash."""
-    with patch("quick_check.BRAIN_DIR", tmp_path):
+    with patch("before_turn.quick_check.BRAIN_DIR", tmp_path):
         quick_check("nonexistent-id", last_n=3)
 
     captured = capsys.readouterr()
@@ -89,7 +89,7 @@ def test_empty_transcript_handled(tmp_path, capsys):
     log_dir.mkdir(parents=True)
     (log_dir / "transcript.jsonl").write_text("", encoding="utf-8")
 
-    with patch("quick_check.BRAIN_DIR", tmp_path):
+    with patch("before_turn.quick_check.BRAIN_DIR", tmp_path):
         quick_check(conv_id, last_n=3)
 
     captured = capsys.readouterr()
@@ -102,8 +102,9 @@ def test_canonical_failure_mode_documented():
     This test documents it as a known, named failure -- not tested by running code
     but by asserting the failure mode is described in the module docstring.
     """
-    import quick_check
-    assert "timing rationalization" in quick_check.__doc__.lower(), (
+    import importlib
+    qc_module = importlib.import_module("before_turn.quick_check")
+    assert "timing rationalization" in qc_module.__doc__.lower(), (
         "The canonical failure mode (timing rationalization) must be documented "
         "in the module docstring. It is the first and most common way this "
         "protocol gets broken."
@@ -119,7 +120,7 @@ def test_steps_in_order(tmp_path, capsys):
     ]
     conv_id, base = make_transcript(thoughts, tmp_path)
 
-    with patch("quick_check.BRAIN_DIR", base):
+    with patch("before_turn.quick_check.BRAIN_DIR", base):
         quick_check(conv_id, last_n=3)
 
     captured = capsys.readouterr()

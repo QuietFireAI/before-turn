@@ -174,12 +174,16 @@ Without it, the tools are available. With it, the tools get used.
 ## Relationship to the QuietFireAI Family
 
 ```
-before-turn         <- governance: runs before every response (you are here)
-agent-open-mind     <- capture: reads sub-agent and self reasoning traces
-open-mind           <- alignment: compares thinking to shaped response
-sleep-marks         <- continuity: restores reasoning state across sessions
-TelsonBase          <- trust: governs what agents are permitted to do
+before-turn              <- governance: runs before every response (you are here)
+agent-open-mind          <- capture: reads sub-agent and self reasoning traces
+open-mind                <- alignment: compares thinking to shaped response
+pre-response-selfcheck   <- exit gate: rereads output as a cold reader before delivery
+sleep-marks              <- continuity: restores reasoning state across sessions
+splitvantage             <- cross-examination: second model on drift-flagged decisions
 ```
+
+(TelsonBase is the optional enterprise permission layer - referenced, not required;
+see MANIFESTO.md.)
 
 `before-turn` is the entry point. It runs first, every time, unconditionally.
 Everything else in the family depends on it running.
@@ -209,8 +213,8 @@ agent suppressed in its own manual curation. The before-turn protocol's evasion
 patterns were validated by this session's evidence.
 
 **SplitVantage (founding dataset):**
-SplitVantage - same task, two models, automated comparison - does not yet exist
-as a tool. But the June 11 2026 session is its founding dataset. The same inputs
+[splitvantage](https://github.com/QuietFireAI/splitvantage) - same task, two models,
+automated comparison - now exists as the sixth pillar. The June 11 2026 session is its founding dataset. The same inputs
 (cross_llm_handoff.md, session_handoff.json), two models (Gemini, Claude),
 divergent and convergent outputs across five perspective questions - all documented,
 all traceable. Build SplitVantage on top of what actually happened here.
