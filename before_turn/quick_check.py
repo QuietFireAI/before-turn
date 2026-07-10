@@ -33,6 +33,10 @@ BEFORE_TURN_QUESTIONS = [
 
 
 def quick_check(conversation_id: str, last_n: int = 3) -> None:
+    # Reject path traversal: the id is a single directory name, never a path.
+    if any(sep in conversation_id for sep in ("/", "\\")) or conversation_id in (".", ".."):
+        print(f"Invalid conversation ID (must be a plain directory name): {conversation_id!r}")
+        return
     transcript = (
         BRAIN_DIR / conversation_id / ".system_generated" / "logs" / "transcript.jsonl"
     )
